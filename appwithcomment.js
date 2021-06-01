@@ -1,5 +1,15 @@
 const canvas = document.getElementById('jsCanvas');
 const ctx = canvas.getContext('2d');
+/*canvas의 중요한 점 중 하나는 context를 갖는다는 것임
+context는 canvas안에서 픽섹들을 컨트롤 해줌*/ 
+const colors = document.getElementsByClassName('jsColor');
+//11. stroke의 색상을 바꿔주기위해 컬러들을 가져옴
+
+canvas.width = 700;
+canvas.height = 700;
+/*10. canvas는 사이즈가 2개 필요함
+하나는 우리가 설정한 css 사이즈고 나머지 하나는 pixel를 조정할 수 있는
+pixel manipulating size여서 Js에서 다시한번 주는 것 */ 
 
 ctx.strokeStyle = '#2c2c2c';
 ctx.lineWidth = 2.5;
@@ -42,10 +52,10 @@ function onMouseMove(event) {
 canvas와 윈도우의 사이즈가 다르므로 offset과 client의 좌표도 다르다.
 canvas안에서의 좌표만 필요한 것이기때문에 offsetX & Y를 가져옴*/
 
-function onMouseDown(event) {
+/*function onMouseDown(event) {
     painting = true; 
-    //2. addEventListener의 인자에 넣은 후 함수 생성 
-}
+    2. addEventListener의 인자에 넣은 후 함수 생성 
+}*/
 
 /*function onMouseUp(event) {
     //painting = false; 
@@ -64,6 +74,15 @@ function onMouseDown(event) {
     if 구문의 eventListener의 두번째 인자로 부르면됨 
 }*/
 
+function handleColorClick(event) {
+    const color = event.target.style.backgroundColor;
+    //background color만 뽑아주는 color를 생성 
+    ctx.strokeStyle = color; 
+    //위에서 검은색으로 지정했던 strokeStyle을 가져와서 color로 지정해주면 변경할 수 있음
+}
+//13. event를 생성하고 컬러를 핸들링하는 함수를 만들어줌 
+
+
 if(canvas) {
     canvas.addEventListener('mousemove', onMouseMove);
     //캔버스위에서 마우스가 움직일때 움직임을 감지하기위한 event 
@@ -76,3 +95,7 @@ if(canvas) {
     //마우스가 캔버스에서 나가게 되면 painting이 false가 되도록하는 event
     canvas.addEventListener('mouseleave', stopPainting);
 }
+
+Array.from(colors).forEach(color => color.addEventListener('click', handleColorClick));
+//12. colors를 array로 가져와서 클릭을 하면 각각 가져와지는 event를 생성 
+//위의 color는 굳이 color가 아니어도됨 potato가 될수도 있고 자기가 원하는 이름으로 지정가능
